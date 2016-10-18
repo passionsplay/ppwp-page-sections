@@ -23,11 +23,12 @@
  */
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-    die;
+	die;
 }
 
-// Include composer autoloader.
-require 'vendor/autoload.php';
+if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
+	require_once $composer;
+}
 
 Plugin::init();
 
