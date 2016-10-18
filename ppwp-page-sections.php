@@ -1,4 +1,4 @@
-<?php
+<?php namespace PassionsPlay\PageSections;
 /**
  * The Passions Play Page Section plugin bootstrap file
  *
@@ -25,4 +25,9 @@
 if ( ! defined( 'WPINC' ) ) {
     die;
 }
+
+// Include composer autoloader.
+require 'vendor/autoload.php';
+
+Plugin::init();
 
