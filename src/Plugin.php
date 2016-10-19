@@ -46,6 +46,27 @@ class Plugin {
 	 */
 	public static function init() {
 		$plugin = self::get_instance();
+		add_action( 'admin_init', array( $plugin, 'plugin_dependencies' ) );
+	}
+
+	/**
+	 * Verify plugin dependencies and deactivate if not met.
+	 */
+	public function plugin_dependencies() {
+		if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'cmb2/init.php' ) ) {
+			add_action( 'admin_notices', array($this, 'plugin_dependency_notice' ) );
+			deactivate_plugins($this->get_path() . '/ppwp-page-sections.php');
+			if ( isset( $_GET['activate'] ) ) {
+				unset( $_GET['activate'] );
+			}
+		}
+	}
+
+	/**
+	 * The notice message when dependencies are not met.
+	 */
+	public function plugin_dependency_notice() {
+		?><div class="error"><p>The Passions Play Page Section plugin could not be activated because it requires <a href="https://wordpress.org/plugins/cmb2/">CMB2</a>. Please install CMB2 and try activating again.</p></div><?php
 	}
 
 	/**
