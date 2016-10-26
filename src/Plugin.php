@@ -1,6 +1,7 @@
 <?php namespace PassionsPlay\PageSections;
 
 use PassionsPlay\PageSections\ContentTypes\PageSection;
+use PassionsPlay\PageSections\Shortcodes\PageSection as PageSectionShortcodes;
 /**
  * The main plugin class responsible for integration with WordPress.
  *
@@ -50,6 +51,7 @@ class Plugin {
 		$plugin = self::get_instance();
 		add_action( 'admin_init', array( $plugin, 'plugin_dependencies' ) );
 		add_action( 'init', array( $plugin, 'register_content_types' ) );
+		add_action( 'init', array( $plugin, 'register_shortcodes' ) );
 	}
 
 	/**
@@ -77,6 +79,14 @@ class Plugin {
 	 */
 	public function register_content_types() {
 		new PageSection;
+	}
+
+	/**
+	 * Register Custom Content Types with WordPress.
+	 */
+	public function register_shortcodes() {
+		$page_section_shortcodes = new PageSectionShortcodes;
+		add_shortcode('page_section', array($page_section_shortcodes, 'page_section'));
 	}
 
 	/**
