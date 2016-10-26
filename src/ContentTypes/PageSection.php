@@ -12,6 +12,8 @@ class PageSection {
 
 	public function __construct() {
 		$this->register();
+		add_action('add_meta_boxes_page_section', array($this, 'metabox'));
+		add_action('cmb2_admin_init', array($this, 'metabox'));
 	}
 
 	/**
@@ -49,6 +51,38 @@ class PageSection {
 			'publicly_queryable' => false,
 		);
 		register_post_type( 'page_section', $args );
+	}
+
+	public static function metabox() {
+
+		$prefix = '_page_section_';
+
+		// Intiate the metabox.
+		$cmb = new_cmb2_box( array(
+			'id'           => 'page_section_options',
+			'title'        => __( 'Page Section Options', 'ppwp-page-sections' ),
+			'object_types' => array( 'page_section' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
+		));
+
+		$cmb->add_field( array(
+			'name'   => __( 'Container ID', 'ppwp-page-sections' ),
+			'desc'   => __( 'The containing elements ID.', 'ppwp-page-sections' ),
+			'id'     => $prefix . 'el_id',
+			'type'   => 'text',
+			'column' => true,
+		));
+
+		$cmb->add_field( array(
+			'name'   => __( 'Container CSS Classes', 'ppwp-page-sections' ),
+			'desc'   => __( 'Space separated list of styling classes for the containing element.', 'ppwp-page-sections' ),
+			'id'     => $prefix . 'el_classes',
+			'type'   => 'text',
+			'column' => true,
+		));
+
 	}
 }
 
