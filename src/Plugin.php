@@ -1,4 +1,6 @@
 <?php namespace PassionsPlay\PageSections;
+
+use PassionsPlay\PageSections\ContentTypes\PageSection;
 /**
  * The main plugin class responsible for integration with WordPress.
  *
@@ -47,6 +49,7 @@ class Plugin {
 	public static function init() {
 		$plugin = self::get_instance();
 		add_action( 'admin_init', array( $plugin, 'plugin_dependencies' ) );
+		add_action( 'init', array( $plugin, 'register_content_types' ) );
 	}
 
 	/**
@@ -67,6 +70,13 @@ class Plugin {
 	 */
 	public function plugin_dependency_notice() {
 		?><div class="error"><p>The Passions Play Page Section plugin could not be activated because it requires <a href="https://wordpress.org/plugins/cmb2/">CMB2</a>. Please install CMB2 and try activating again.</p></div><?php
+	}
+
+	/**
+	 * Register Custom Content Types with WordPress.
+	 */
+	public function register_content_types() {
+		new PageSection;
 	}
 
 	/**
